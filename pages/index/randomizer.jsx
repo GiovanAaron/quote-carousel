@@ -3,6 +3,7 @@
 
 import React, { useEffect, useState } from 'react';
 
+
 const Randomizer = () => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
@@ -23,6 +24,7 @@ const Randomizer = () => {
         
         
         const rows = result.results
+      
 
         const quotes = rows.map((quote) => {
 
@@ -30,19 +32,21 @@ const Randomizer = () => {
           let quoteBody = quote.properties.Excerpt.rich_text.length ? quote.properties.Excerpt.rich_text[0].plain_text : null;
           let year = quote.properties.Year.number ? quote.properties.Year.number : null;
           let source = quote.properties.Source.rich_text.length ? quote.properties.Source.rich_text[0].plain_text : null;
+          let pageID = quote.id
           
           
         
           const quoteObj = {author: author,
             quoteBody: quoteBody,
             year: year,
-            source: source
+            source: source,
+            pageID:pageID
           }
           return quoteObj
 
         })
 
-        
+        console.log(quotes)
         let randomIndex = Math.floor(Math.random() * quotes.length)
 
         setData(quotes[randomIndex]);
@@ -63,13 +67,23 @@ const Randomizer = () => {
   }
 
   return (
-    <div>
-      
-      <h3>{data.author}</h3>
-      <h3>{data.quoteBody}</h3>
-      <h3>{data.year}</h3>
-      <h3>{data.source}</h3>
+    <div className="bg-slate-400 max-w-custom-30">
+    <div className="bg-yellow-600">
+      <p className="">
+        {data.quoteBody}
+      </p>
     </div>
+    <div className="">
+      <div className="">
+        <div className="bg-pink-900">
+          <p className="">-{data.author}, {data.source} </p>
+        </div>
+        <div className="">
+          <p className="">({data.year})</p>
+        </div>
+      </div>
+    </div>
+  </div>
   );
 };
 
