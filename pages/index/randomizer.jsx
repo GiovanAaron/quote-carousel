@@ -24,7 +24,7 @@ const Randomizer = () => {
         
         
         const rows = result.results
-      
+        
 
         const quotes = rows.map((quote) => {
 
@@ -33,6 +33,19 @@ const Randomizer = () => {
           let year = quote.properties.Year.number ? quote.properties.Year.number : null;
           let source = quote.properties.Source.rich_text.length ? quote.properties.Source.rich_text[0].plain_text : null;
           let pageID = quote.id
+          let imgURL = "/images/anon-pic.jpg"
+
+          
+          if (quote.properties.Media.files.length) {
+            switch (quote.properties.Media.files[0].type) {
+              case "file": imgURL = quote.properties.Media.files[0].file.url
+              break;
+              case "external": imgURL = quote.properties.Media.files[0].external.url
+              break;
+              default: console.log("you haven't referenced properly")
+
+            }
+          }
           
           
         
@@ -40,13 +53,14 @@ const Randomizer = () => {
             quoteBody: quoteBody,
             year: year,
             source: source,
-            pageID:pageID
+            pageID:pageID,
+            imgURL: imgURL
           }
           return quoteObj
 
         })
 
-        console.log(quotes)
+        
         let randomIndex = Math.floor(Math.random() * quotes.length)
 
         setData(quotes[randomIndex]);
@@ -79,8 +93,9 @@ const Randomizer = () => {
           <p className="">-{data.author}, {data.source} </p>
         </div>
         <div className="">
-          <p className="">({data.year})</p>
+          <p className="">{data.year ? `(${data.year})` : null}</p>
         </div>
+        <img src={data.imgURL}></img>
       </div>
     </div>
   </div>

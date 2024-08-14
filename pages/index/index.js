@@ -20,12 +20,12 @@ const NotionData = () => {
         
         JSON.stringify(result)
 
-        console.log(typeof dark)
+        
         
         
         const rows = result.results
 
-        console.log(rows)
+        
 
         const quotes = rows.map((quote) => {
 
